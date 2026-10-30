@@ -79,7 +79,7 @@ ls
 
 The following screenshot shows the successful cloning of the GitHub repository and access to the project directory in Ubuntu.
 
-<img width="959" height="538" alt="scre3" src="https://github.com/user-attachments/assets/5deeb997-5574-4d28-828c-7efb54b80308" />
+<img width="953" height="539" alt="scren6" src="https://github.com/user-attachments/assets/99f86174-5e93-4282-a5e1-68edb31688e7" />
 
 
 ## 4. Understanding RTL Design
@@ -126,6 +126,12 @@ endmodule
 - `y` is the output.
 - When `sel = 0`, the output follows `i0`.
 - When `sel = 1`, the output follows `i1`.
+
+**ScreenShot of RTL code**
+
+<img width="956" height="537" alt="scr11" src="https://github.com/user-attachments/assets/487d279e-52c2-4ce7-9620-1ac1f5aa1f0e" />
+
+
 
 ## 5. Understanding the Testbench
 
@@ -183,6 +189,9 @@ end
 
 endmodule
 ```
+**ScreenShot of Testbenchfile**
+<img width="959" height="532" alt="scre10" src="https://github.com/user-attachments/assets/9d176657-6a2a-469d-aa65-b62d041c9993" />
+
 
 ## 6. Functional Simulation
 
@@ -211,11 +220,6 @@ Icarus Verilog is an open-source Verilog compiler and simulator.
 iverilog -o mux_sim good_mux.v tb_good_mux.v
 ```
 
-**Step 2: Execute the simulation**
-
-```bash
-vvp mux_sim
-```
 
 **Step 3: Generate and view the waveform**
 
@@ -233,9 +237,10 @@ The waveform helps confirm whether the output follows the expected multiplexer b
 
 **Simulation Waveform:**
 
-![Simulation waveform](images/rtl_simulation_waveform.png)
+<img width="955" height="537" alt="scren8" src="https://github.com/user-attachments/assets/11c63ea0-98c8-4ba6-8167-a9f8fc8a7cd2" />
 
-*Add your actual GTKWave screenshot here.*
+
+
 
 ## 7. Introduction to Yosys
 
@@ -382,29 +387,14 @@ read_verilog good_mux.v
 
 This command reads the Verilog source code into Yosys.
 
-### Step 3: Check the Design Hierarchy
 
-```tcl
-hierarchy -check -top good_mux
-```
-
-This checks the module hierarchy and identifies the top-level module.
-
-### Step 4: Perform Synthesis
+### Step 3: Perform Synthesis
 
 ```tcl
 synth -top good_mux
 ```
 
 This performs the synthesis process, including logic transformation and optimization.
-
-### Step 5: Display Synthesis Statistics
-
-```tcl
-stat
-```
-
-This displays the synthesis statistics, including the number and types of cells in the synthesized design.
 
 ### Step 6: Generate the Synthesized Netlist
 
@@ -420,27 +410,6 @@ Technology mapping converts the optimized generic logic into actual standard cel
 
 For SKY130, the corresponding standard-cell Liberty file is used.
 
-### Example Yosys Commands
-
-```tcl
-read_verilog good_mux.v
-
-read_liberty -lib /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-synth -top good_mux
-
-dfflibmap -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-clean
-
-stat -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-write_verilog -noattr mapped_good_mux.v
-```
-
-**Note:** Replace the example Liberty file path with the actual path available in your SKY130 PDK installation. The example uses the typical SKY130 HD typical-corner library filename.
 
 ## 12. Verification of the Synthesized Design
 

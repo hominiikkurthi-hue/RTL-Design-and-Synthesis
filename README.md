@@ -280,9 +280,6 @@ A Liberty file (`.lib`) is a standard library description file containing the ch
 - Input and output pin information.
 - Timing arcs and propagation delays.
 - Setup and hold timing constraints.
-- Input capacitance and output drive strength.
-- Power-related information.
-- Operating conditions.
 
 ### Importance of Liberty Files
 
@@ -342,7 +339,8 @@ This command generates a graphical representation of the synthesized design, sho
 
 **Synthesized Logic Diagram:**
 
-![Synthesized Logic Diagram](images/synthesized_logic_diagram.png)
+<img width="959" height="535" alt="synthesis" src="https://github.com/user-attachments/assets/f611dd0c-96c8-4c2c-973f-fe01a2cd409a" />
+
 
 ### Step 6: Display Synthesis Statistics
 
@@ -360,36 +358,6 @@ write_verilog -noattr mapped_good_mux.v
 
 This generates the technology-mapped Verilog netlist.
 
-
-## 11. Verification of the Synthesized Design
-
-Post-synthesis verification checks whether the synthesized netlist maintains the intended functionality of the original RTL design.
-
-### Verification Procedure
-
-1. Generate the synthesized gate-level netlist.
-2. Use the testbench to apply input combinations.
-3. Compile the synthesized netlist.
-4. Execute the simulation.
-5. Compare the outputs with the original RTL simulation.
-
-**Simulation Commands:**
-
-```bash
-iverilog -o synth_sim mapped_good_mux.v tb_good_mux.v
-
-vvp synth_sim
-```
-
-For waveform analysis:
-
-```bash
-gtkwave good_mux.vcd
-```
-
-The synthesized design should produce the expected output for the applied input combinations. For a mapped netlist, the required standard-cell simulation models must also be available.
-
-
 ## 13. Results and Observations
 
 The practical implementation demonstrates the following results:
@@ -405,22 +373,6 @@ The practical implementation demonstrates the following results:
 | Technology Mapping | Standard cells selected |
 | Netlist Generation | Gate-level Verilog generated |
 | Verification | Synthesized design checked |
-
-## 14. Screenshots and Implementation Results
-
-### 14.1 Synthesized Gate-Level Netlist
-
-The generated Verilog netlist shows the standard-cell instances and connections produced by Yosys.
-
-<img width="959" height="535" alt="synthesis" src="https://github.com/user-attachments/assets/f14955b1-6861-479b-8c8e-117d5e9f2525" />
-
-
-### 14.2 Synthesized Logic Diagram
-
-The logic diagram illustrates the mapped multiplexer structure and the connections between input and output signals.
-
-<img width="959" height="539" alt="syn1" src="https://github.com/user-attachments/assets/f9dc2f8f-8abd-436a-a2d2-069af0b19485" />
-
 
 ## 16. Conclusion
 

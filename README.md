@@ -5,8 +5,6 @@
 
 This repository documents the process of designing, simulating, verifying, and synthesizing digital circuits using Verilog HDL and open-source EDA tools.
 
-The project focuses on understanding how a digital design written in RTL (Register Transfer Level) is converted into a gate-level netlist through logic synthesis.
-
 The complete workflow includes RTL coding, testbench development, functional simulation, waveform analysis, synthesis using Yosys, and verification of the synthesized design.
 
 The objective is to understand the relationship between RTL descriptions, digital logic, simulation results, and hardware implementation.
@@ -27,13 +25,14 @@ The objective is to understand the relationship between RTL descriptions, digita
 
 | Tool / Technology | Purpose |
 |---|---|
-| Verilog HDL | Hardware description language for RTL design |
-| Icarus Verilog | Verilog compilation and simulation |
-| GTKWave | Waveform visualization and analysis |
-| Yosys | RTL synthesis and logic optimization |
-| SKY130 PDK | Open-source 130 nm semiconductor technology |
-| Liberty (.lib) | Standard-cell timing and characterization information |
-| Ubuntu Linux | Development environment |
+| Verilog HDL | RTL Design |
+| Icarus Verilog | Functional Simulation |
+| GTKWave | Waveform Analysis |
+| Yosys | RTL Synthesis |
+| SKY130 PDK | Standard Cell Technology |
+| Liberty (.lib) | Standard Cell Characterization |
+| Oracle VirtualBox | Virtualization Platform |
+| Linux (VSD Squadron) | Development Environment |
 
 ## 4. Repository Setup
 
@@ -87,16 +86,6 @@ The following screenshot shows the successful cloning of the GitHub repository a
 RTL stands for Register Transfer Level. It describes the behavior and data flow of a digital circuit using a hardware description language such as Verilog.
 
 RTL specifies how data moves between registers and how combinational and sequential logic processes that data.
-
-A Verilog design generally contains:
-
-- Module declaration
-- Input and output ports
-- Internal signals
-- Combinational logic
-- Sequential logic
-- Parameters and generate blocks, when required
-
 
 ### RTL Design Example
 

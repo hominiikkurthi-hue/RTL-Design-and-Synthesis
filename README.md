@@ -358,6 +358,9 @@ write_verilog -noattr mapped_good_mux.v
 
 This generates the technology-mapped Verilog netlist.
 
+<img width="959" height="539" alt="syn1" src="https://github.com/user-attachments/assets/62c1ddaf-ca7a-4c05-9bf6-d9c4ca20e638" />
+
+
 ## 13. Results and Observations
 
 The practical implementation demonstrates the following results:

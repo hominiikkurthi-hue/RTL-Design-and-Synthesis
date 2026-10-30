@@ -95,18 +95,17 @@ The multiplexer selects one of two input signals depending on the select signal.
 
 **Design file:** `good_mux.v`
 
-```verilog
-module good_mux (
-    input i0,
-    input i1,
-    input sel,
-    output y
-);
+module good_mux(input i0, input i1, input sel, output reg y);
 
-assign y = sel ? i1 : i0;
+always @(*)
+begin
+    if(sel)
+        y <= i1;
+    else
+        y <= i0;
+end
 
 endmodule
-```
 
 **Explanation:**
 

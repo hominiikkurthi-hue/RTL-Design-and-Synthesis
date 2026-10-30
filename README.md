@@ -331,35 +331,7 @@ write_verilog -noattr synth_good_mux.v
 
 The generated Verilog file represents the synthesized logic structure of the original RTL design.
 
-## 11. Technology Mapping Using a .lib File
-
-Technology mapping converts optimized generic logic into standard cells available in the selected semiconductor technology.
-
-For SKY130, Yosys can use the standard-cell Liberty library during technology mapping.
-
-The following commands demonstrate the mapping flow:
-
-```tcl
-read_verilog good_mux.v
-
-read_liberty -lib /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-synth -top good_mux
-
-dfflibmap -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-clean
-
-stat -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-write_verilog -noattr mapped_good_mux.v
-```
-
-Replace the example Liberty path with the actual path in your SKY130 installation. The `dfflibmap` command is relevant when the design contains supported flip-flops.
-
-## 12. Verification of the Synthesized Design
+## 11. Verification of the Synthesized Design
 
 Post-synthesis verification checks whether the synthesized netlist maintains the intended functionality of the original RTL design.
 
@@ -387,7 +359,7 @@ gtkwave good_mux.vcd
 
 The synthesized design should produce the expected output for the applied input combinations. For a mapped netlist, the required standard-cell simulation models must also be available.
 
-## 13. Complete RTL-to-Synthesis Flow
+## 12. Complete RTL-to-Synthesis Flow
 
 The following flow illustrates the major stages involved in converting RTL code into a synthesized gate-level netlist.
 
@@ -428,7 +400,7 @@ The following flow illustrates the major stages involved in converting RTL code 
  Post-Synthesis Verification
 ```
 
-## 14. Results and Observations
+## 13. Results and Observations
 
 The practical implementation demonstrates the following results:
 
@@ -444,19 +416,21 @@ The practical implementation demonstrates the following results:
 | Netlist Generation | Gate-level Verilog generated |
 | Verification | Synthesized design checked |
 
-## 15. Screenshots and Implementation Results
+## 14. Screenshots and Implementation Results
 
-### 15.1 Synthesized Gate-Level Netlist
+### 14.1 Synthesized Gate-Level Netlist
 
 The generated Verilog netlist shows the standard-cell instances and connections produced by Yosys.
 
-![Gate-Level Netlist](images/gate_level_netlist.png)
+<img width="959" height="535" alt="synthesis" src="https://github.com/user-attachments/assets/f14955b1-6861-479b-8c8e-117d5e9f2525" />
 
-### 15.2 Synthesized Logic Diagram
+
+### 14.2 Synthesized Logic Diagram
 
 The logic diagram illustrates the mapped multiplexer structure and the connections between input and output signals.
 
-![Synthesized Logic Diagram](images/synthesized_logic_diagram.png)
+<img width="959" height="539" alt="syn1" src="https://github.com/user-attachments/assets/f9dc2f8f-8abd-436a-a2d2-069af0b19485" />
+
 
 ## 16. Conclusion
 

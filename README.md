@@ -1,4 +1,4 @@
-# RTL-Design-and-Synthesis
+
 # RTL Design and Logic Synthesis Using Yosys
 
 ## 1. Introduction
@@ -46,6 +46,9 @@ The Git repository is downloaded using the `git clone` command.
 ```bash
 git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
 ```
+<img width="955" height="539" alt="screenshot1" src="https://github.com/user-attachments/assets/765d0950-8c2e-4f43-9be0-dfe47baf4700" />
+
+
 
 ### Step 2: Navigate to the Project Directory
 
@@ -69,12 +72,15 @@ The Verilog source files required for RTL design and simulation are available in
 cd verilog_files
 ls
 ```
+<img width="953" height="536" alt="scre2" src="https://github.com/user-attachments/assets/254b7be5-3213-477c-94ba-ad3414330847" />
+
 
 ### Repository Setup Screenshot
 
 The following screenshot shows the successful cloning of the GitHub repository and access to the project directory in Ubuntu.
 
-![Repository Setup](images/repository_cloning.png)
+<img width="959" height="538" alt="scre3" src="https://github.com/user-attachments/assets/5deeb997-5574-4d28-828c-7efb54b80308" />
+
 
 ## 4. Understanding RTL Design
 

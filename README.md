@@ -240,32 +240,65 @@ The waveform helps confirm whether the output follows the expected multiplexer b
 <img width="955" height="537" alt="scren8" src="https://github.com/user-attachments/assets/11c63ea0-98c8-4ba6-8167-a9f8fc8a7cd2" />
 
 
+## 6. Functional Simulation
 
+Functional simulation verifies whether the RTL design behaves according to the intended logic before synthesis.
+
+A simulator executes the Verilog design along with its testbench and produces output responses for different input combinations.
+
+### What is a Simulator?
+
+A simulator is a software tool that models the behavior of digital hardware over time. It helps identify logical errors, unexpected outputs, and incorrect design behavior.
+
+### Simulation Using Icarus Verilog
+
+Icarus Verilog is an open-source Verilog compiler and simulator used to compile and execute RTL designs.
+
+**Step 1: Compile the design and testbench**
+
+```bash
+iverilog -o mux_sim good_mux.v tb_good_mux.v
+```
+
+**Step 2: Run the simulation**
+
+```bash
+vvp mux_sim
+```
+
+**Step 3: Open the waveform**
+
+```bash
+gtkwave good_mux.vcd
+```
+
+### Waveform Analysis
+
+GTKWave displays input and output signal transitions over simulation time. It helps verify whether the multiplexer output follows the selected input correctly.
+
+**Simulation Waveform:**
+
+<img width="955" alt="Functional Simulation Waveform" src="https://github.com/user-attachments/assets/11c63ea0-98c8-4ba6-8167-a9f8fc8a7cd2" />
 
 ## 7. Introduction to Yosys
 
-Yosys is an open-source RTL synthesis framework used to convert Verilog hardware descriptions into optimized gate-level logic representations.
-
-It reads the RTL source code, processes the design, performs logic optimization, and generates a synthesized netlist.
+Yosys is an open-source RTL synthesis framework used to convert Verilog hardware descriptions into optimized logic representations and gate-level netlists.
 
 ### Why is Yosys Used?
 
-Yosys helps to:
-
-- Read and analyze Verilog RTL.
-- Convert procedural descriptions into internal logic.
-- Perform logic optimization.
-- Identify combinational and sequential elements.
-- Map logic into standard-cell libraries.
-- Generate gate-level Verilog netlists.
-- Analyze cell usage and synthesis statistics.
+- Reads and analyzes Verilog RTL.
+- Converts behavioral descriptions into logic.
+- Performs logic optimization.
+- Supports technology mapping.
+- Generates gate-level Verilog netlists.
+- Provides synthesis statistics.
 
 ### Basic Yosys Synthesis Flow
 
-1. Read RTL source files.
+1. Read Verilog RTL files.
 2. Check design hierarchy.
 3. Convert processes into logic.
-4. Perform optimization.
+4. Perform logic optimization.
 5. Execute synthesis.
 6. Perform technology mapping.
 7. Generate the gate-level netlist.
@@ -286,92 +319,64 @@ Yosys helps to:
        Process Logic
             |
             v
-       Optimization
+        Optimization
             |
             v
       Logic Synthesis
             |
             v
-    Technology Mapping
+     Technology Mapping
             |
             v
      Gate-Level Netlist
             |
             v
-     Synthesis Statistics
+    Synthesis Statistics
 ```
 
 ## 8. Understanding Logic Synthesis
 
 Logic synthesis is the process of converting an RTL description into an equivalent network of logic gates and sequential elements.
 
-During synthesis, the tool interprets the behavioral and structural descriptions and transforms them into hardware logic.
-
 ### Stages of Logic Synthesis
 
-**1. RTL Reading**
+**1. RTL Reading:** The synthesis tool reads the Verilog source code and identifies modules, ports, and signals.
 
-The synthesis tool reads the Verilog source code and identifies modules, ports, signals, and design structures.
+**2. Process Conversion:** Behavioral statements are converted into internal logic representations.
 
-**2. Process Conversion**
+**3. Logic Optimization:** Redundant logic is removed and Boolean expressions are simplified.
 
-Behavioral Verilog statements are converted into internal logic representations.
+**4. Technology Mapping:** Optimized logic is mapped to standard cells available in the target technology library.
 
-**3. Logic Optimization**
-
-Unnecessary logic is removed, redundant expressions are simplified, and the circuit is optimized.
-
-**4. Technology Mapping**
-
-The optimized logic is mapped to available standard cells from a target technology library.
-
-**5. Netlist Generation**
-
-The final mapped design is written as a gate-level Verilog netlist.
+**5. Netlist Generation:** The final synthesized design is written as a gate-level Verilog netlist.
 
 ## 9. Introduction to Liberty (.lib) Files
 
-A Liberty file (`.lib`) is a standard library description file that contains information about standard cells used in digital integrated circuit design.
+A Liberty file (`.lib`) is a standard library description file containing the characteristics of standard cells used in digital IC design.
 
-It provides the synthesis and timing-analysis tools with the electrical and timing characteristics of individual cells.
+### Information Available in a .lib File
 
-### What Information Does a .lib File Contain?
-
-A Liberty file generally includes:
-
-- Standard-cell names.
-- Logic functions.
+- Standard-cell names and logic functions.
 - Input and output pin information.
 - Timing arcs and propagation delays.
-- Setup and hold timing information.
-- Clock-to-output timing.
-- Input capacitance.
-- Output drive characteristics.
+- Setup and hold timing constraints.
+- Input capacitance and output drive strength.
 - Power-related information.
 - Operating conditions.
 
-### Why is a .lib File Important?
+### Importance of Liberty Files
 
-The `.lib` file helps the synthesis tool understand which standard cells are available in a particular technology.
+The `.lib` file provides the synthesis tool with information about the available standard cells in a technology.
 
-For example, when synthesizing a design using the SKY130 technology, the library provides information about cells such as:
+For SKY130, it contains descriptions of cells such as NAND, NOR, AND, OR, inverters, flip-flops, buffers, and multiplexers.
 
-- AND gates
-- OR gates
-- NAND gates
-- NOR gates
-- Inverters
-- Flip-flops
-- Buffers
-- Multiplexers
+Yosys uses this information during technology mapping to select suitable standard cells.
 
-Yosys uses the library information during technology mapping to select appropriate standard cells for the optimized logic.
-
-**Important:** A Liberty file is not a layout file. It describes the logical, timing, and electrical characteristics of standard cells, not their physical geometries.
+**Note:** A Liberty file describes logical, timing, and electrical characteristics. It does not contain the physical layout geometry of the cells.
 
 ## 10. Performing RTL Synthesis Using Yosys
 
-Yosys can be used to synthesize a Verilog design and generate a gate-level representation.
+Yosys converts the Verilog RTL design into an optimized logic representation.
 
 ### Step 1: Launch Yosys
 
@@ -385,47 +390,57 @@ yosys
 read_verilog good_mux.v
 ```
 
-This command reads the Verilog source code into Yosys.
-
-
-### Step 3: Perform Synthesis
-
-```tcl
-synth -top good_mux
 ```
 
-This performs the synthesis process, including logic transformation and optimization.
-
-### Step 6: Generate the Synthesized Netlist
+### Step 3: Generate the Synthesized Netlist
 
 ```tcl
 write_verilog -noattr synth_good_mux.v
 ```
 
-This generates a Verilog file containing the synthesized logic representation.
+The generated Verilog file represents the synthesized logic structure of the original RTL design.
 
 ## 11. Technology Mapping Using a .lib File
 
-Technology mapping converts the optimized generic logic into actual standard cells available in the selected technology library.
+Technology mapping converts optimized generic logic into standard cells available in the selected semiconductor technology.
 
-For SKY130, the corresponding standard-cell Liberty file is used.
+For SKY130, Yosys can use the standard-cell Liberty library during technology mapping.
 
+The following commands demonstrate the mapping flow:
+
+```tcl
+read_verilog good_mux.v
+
+read_liberty -lib /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+synth -top good_mux
+
+dfflibmap -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
+
+stat -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+write_verilog -noattr mapped_good_mux.v
+```
+
+Replace the example Liberty path with the actual path in your SKY130 installation. The `dfflibmap` command is relevant when the design contains supported flip-flops.
 
 ## 12. Verification of the Synthesized Design
 
-After synthesis, it is important to verify that the generated gate-level netlist preserves the intended functionality of the original RTL design.
-
-This step checks whether the synthesized hardware produces the expected output for the applied testbench inputs.
+Post-synthesis verification checks whether the synthesized netlist maintains the intended functionality of the original RTL design.
 
 ### Verification Procedure
 
-1. Generate the synthesized gate-level Verilog netlist.
-2. Use the same testbench developed for the original RTL.
-3. Compile the synthesized netlist with the testbench.
+1. Generate the synthesized gate-level netlist.
+2. Use the testbench to apply input combinations.
+3. Compile the synthesized netlist.
 4. Execute the simulation.
-5. Compare the output responses with the original RTL simulation.
+5. Compare the outputs with the original RTL simulation.
 
-### Commands
+**Simulation Commands:**
 
 ```bash
 iverilog -o synth_sim mapped_good_mux.v tb_good_mux.v
@@ -439,24 +454,20 @@ For waveform analysis:
 gtkwave good_mux.vcd
 ```
 
-**Verification Objective:**
+The synthesized design should produce the expected output for the applied input combinations. For a mapped netlist, the required standard-cell simulation models must also be available.
 
-The output of the synthesized design should match the expected functional behavior of the original RTL design.
+## 13. Complete RTL-to-Synthesis Flow
 
-For stronger verification, the RTL and synthesized netlist can also be compared using formal equivalence checking.
-
-## 13. Understanding the Complete RTL-to-Synthesis Flow
-
-The complete workflow connects the different stages of digital design, beginning with Verilog coding and ending with a synthesized standard-cell netlist.
+The following flow illustrates the major stages involved in converting RTL code into a synthesized gate-level netlist.
 
 ```text
        RTL Design
             |
             v
-       Testbench
+        Testbench
             |
             v
-    Functional Simulation
+   Functional Simulation
             |
             v
      Waveform Analysis
@@ -474,67 +485,60 @@ The complete workflow connects the different stages of digital design, beginning
       Optimization
             |
             v
-     Technology Mapping
+    Technology Mapping
             |
             v
        SKY130 .lib
             |
             v
-   Gate-Level Netlist
+    Gate-Level Netlist
             |
             v
-  Post-Synthesis Verification
+ Post-Synthesis Verification
 ```
 
 ## 14. Results and Observations
 
-The following observations can be documented after completing the simulation and synthesis stages.
+The practical implementation demonstrates the following results:
 
 | Stage | Observation |
 |---|---|
-| RTL Design | Verilog design successfully created |
+| RTL Design | Verilog module created |
 | Testbench | Input stimulus applied |
-| Functional Simulation | RTL behavior examined |
+| Simulation | Functional behavior verified |
 | Waveform Analysis | Signal transitions observed |
-| Yosys Synthesis | RTL converted into logic representation |
-| Logic Optimization | Unnecessary logic optimized |
-| Technology Mapping | Logic mapped to standard cells |
+| Yosys Synthesis | RTL converted into logic |
+| Optimization | Logic optimized |
+| Technology Mapping | Standard cells selected |
 | Netlist Generation | Gate-level Verilog generated |
-| Post-Synthesis Verification | Functional behavior checked |
+| Verification | Synthesized design checked |
 
-*Update the observations according to your actual execution results.*
+## 15. Screenshots and Implementation Results
 
-## 15. Screenshots and Project Documentation
+### 15.1 Synthesized Gate-Level Netlist
 
-The following screenshots can be included to document the practical implementation.
+The generated Verilog netlist shows the standard-cell instances and connections produced by Yosys.
 
-1. RTL Verilog source code.
-2. Testbench source code.
-3. Functional simulation terminal output.
-4. GTKWave simulation waveform.
-5. Yosys synthesis execution.
-6. Yosys synthesis statistics.
-7. SKY130 Liberty file.
-8. Technology mapping results.
-9. Synthesized gate-level netlist.
-10. Post-synthesis verification waveform.
+![Gate-Level Netlist](images/gate_level_netlist.png)
+
+### 15.2 Synthesized Logic Diagram
+
+The logic diagram illustrates the mapped multiplexer structure and the connections between input and output signals.
+
+![Synthesized Logic Diagram](images/synthesized_logic_diagram.png)
 
 ## 16. Conclusion
 
-This project provides practical exposure to the fundamental stages of RTL design and logic synthesis using open-source VLSI tools.
+This project provides practical understanding of RTL design, functional simulation, and logic synthesis using open-source VLSI tools.
 
-Through Verilog coding, testbench development, functional simulation, and waveform analysis, the functionality of digital circuits can be understood and verified.
+It demonstrates how Verilog RTL is processed, optimized, and converted into a gate-level netlist using Yosys and the SKY130 standard-cell library.
 
-The use of Yosys demonstrates how RTL descriptions are transformed into optimized logic and mapped to standard cells using technology library information.
+The project also introduces Liberty files, technology mapping, and post-synthesis verification, providing a foundation for further learning in ASIC design and physical design.
 
-Understanding the role of Liberty files and synthesized netlists provides a foundation for further learning in ASIC design, synthesis, static timing analysis, and physical design.
+## 17. References
 
-## 17. Reference
-
-- [SKY130A CMOS Inverter – Reference Repository](https://github.com/Ragavarshini24/SKY130A-CMOS-Inverter.git)
-- [Yosys Official Documentation](https://yosyshq.readthedocs.io/)
+- [Yosys Documentation](https://yosyshq.readthedocs.io/)
 - [Icarus Verilog Documentation](https://steveicarus.github.io/iverilog/)
-- [GTKWave Documentation](https://gtkwave.sourceforge.net/)
+- [GTKWave](https://gtkwave.sourceforge.net/)
 - [SkyWater SKY130 PDK](https://github.com/google/skywater-pdk)
-
-This documentation is independently written for the RTL design and synthesis workflow.
+- [Reference Repository](https://github.com/Ragavarshini24/SKY130A-CMOS-Inverter.git)

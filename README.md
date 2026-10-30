@@ -305,15 +305,19 @@ Yosys uses this information during technology mapping to select suitable standar
 
 **Note:** A Liberty file describes logical, timing, and electrical characteristics. It does not contain the physical layout geometry of the cells.
 
-## 10. Performing RTL Synthesis Using Yosys
+## 10. RTL Synthesis and Technology Mapping Using Yosys
 
-Yosys converts the Verilog RTL design into an optimized logic representation.
+Yosys is used to synthesize the Verilog RTL design and map the optimized logic into standard cells from the SKY130 technology library.
 
-### Step 1: Launch Yosys
+Run the following commands at the Yosys prompt.
 
-```bash
-yosys
+### Step 1: Read the SKY130 Standard-Cell Library
+
+```tcl
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
+
+This loads the standard-cell definitions for synthesis and technology mapping.
 
 ### Step 2: Read the RTL Design
 
@@ -321,15 +325,52 @@ yosys
 read_verilog good_mux.v
 ```
 
-```
+This command reads the Verilog source code into Yosys.
 
-### Step 3: Generate the Synthesized Netlist
+### Step 3: Synthesize the Design
 
 ```tcl
-write_verilog -noattr synth_good_mux.v
+synth -top good_mux -noabc
 ```
 
-The generated Verilog file represents the synthesized logic structure of the original RTL design.
+This performs RTL synthesis and logic optimization while leaving technology mapping to the ABC step.
+
+### Step 4: Map Logic to Standard Cells
+
+```tcl
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+
+ABC performs logic optimization and maps the design into standard cells using the specified Liberty library.
+
+### Step 5: View the Synthesized Logic
+
+```tcl
+show
+```
+
+This command generates a graphical representation of the synthesized design, showing the logic cells and their connections.
+
+**Synthesized Logic Diagram:**
+
+![Synthesized Logic Diagram](images/synthesized_logic_diagram.png)
+
+### Step 6: Display Synthesis Statistics
+
+```tcl
+stat -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+
+This displays the standard-cell usage and synthesis statistics.
+
+### Step 7: Generate the Gate-Level Netlist
+
+```tcl
+write_verilog -noattr mapped_good_mux.v
+```
+
+This generates the technology-mapped Verilog netlist.
+
 
 ## 11. Verification of the Synthesized Design
 
@@ -359,46 +400,6 @@ gtkwave good_mux.vcd
 
 The synthesized design should produce the expected output for the applied input combinations. For a mapped netlist, the required standard-cell simulation models must also be available.
 
-## 12. Complete RTL-to-Synthesis Flow
-
-The following flow illustrates the major stages involved in converting RTL code into a synthesized gate-level netlist.
-
-```text
-       RTL Design
-            |
-            v
-        Testbench
-            |
-            v
-   Functional Simulation
-            |
-            v
-     Waveform Analysis
-            |
-            v
-       RTL Validation
-            |
-            v
-        Yosys Tool
-            |
-            v
-      Logic Synthesis
-            |
-            v
-      Optimization
-            |
-            v
-    Technology Mapping
-            |
-            v
-       SKY130 .lib
-            |
-            v
-    Gate-Level Netlist
-            |
-            v
- Post-Synthesis Verification
-```
 
 ## 13. Results and Observations
 

@@ -35,6 +35,47 @@ The objective is to understand the relationship between RTL descriptions, digita
 | Liberty (.lib) | Standard-cell timing and characterization information |
 | Ubuntu Linux | Development environment |
 
+## 4. Repository Setup
+
+The RTL Design and Synthesis Workshop repository is obtained from GitHub and configured in the Ubuntu environment. This repository contains the Verilog source files and practical exercises required to understand RTL design, simulation, and synthesis.
+
+### Step 1: Clone the GitHub Repository
+
+The Git repository is downloaded using the `git clone` command.
+
+```bash
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+```
+
+### Step 2: Navigate to the Project Directory
+
+Move into the cloned repository to access the workshop files.
+
+```bash
+cd sky130RTLDesignAndSynthesisWorkshop
+```
+
+### Step 3: Explore the Repository Contents
+
+List the available files and directories to understand the project structure.
+
+```bash
+ls
+```
+
+The Verilog source files required for RTL design and simulation are available in the `verilog_files` directory.
+
+```bash
+cd verilog_files
+ls
+```
+
+### Repository Setup Screenshot
+
+The following screenshot shows the successful cloning of the GitHub repository and access to the project directory in Ubuntu.
+
+![Repository Setup](images/repository_cloning.png)
+
 ## 4. Understanding RTL Design
 
 RTL stands for Register Transfer Level. It describes the behavior and data flow of a digital circuit using a hardware description language such as Verilog.
@@ -49,6 +90,7 @@ A Verilog design generally contains:
 - Combinational logic
 - Sequential logic
 - Parameters and generate blocks, when required
+
 
 ### RTL Design Example
 

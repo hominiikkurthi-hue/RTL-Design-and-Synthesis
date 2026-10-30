@@ -240,46 +240,6 @@ The waveform helps confirm whether the output follows the expected multiplexer b
 <img width="955" height="537" alt="scren8" src="https://github.com/user-attachments/assets/11c63ea0-98c8-4ba6-8167-a9f8fc8a7cd2" />
 
 
-## 6. Functional Simulation
-
-Functional simulation verifies whether the RTL design behaves according to the intended logic before synthesis.
-
-A simulator executes the Verilog design along with its testbench and produces output responses for different input combinations.
-
-### What is a Simulator?
-
-A simulator is a software tool that models the behavior of digital hardware over time. It helps identify logical errors, unexpected outputs, and incorrect design behavior.
-
-### Simulation Using Icarus Verilog
-
-Icarus Verilog is an open-source Verilog compiler and simulator used to compile and execute RTL designs.
-
-**Step 1: Compile the design and testbench**
-
-```bash
-iverilog -o mux_sim good_mux.v tb_good_mux.v
-```
-
-**Step 2: Run the simulation**
-
-```bash
-vvp mux_sim
-```
-
-**Step 3: Open the waveform**
-
-```bash
-gtkwave good_mux.vcd
-```
-
-### Waveform Analysis
-
-GTKWave displays input and output signal transitions over simulation time. It helps verify whether the multiplexer output follows the selected input correctly.
-
-**Simulation Waveform:**
-
-<img width="955" alt="Functional Simulation Waveform" src="https://github.com/user-attachments/assets/11c63ea0-98c8-4ba6-8167-a9f8fc8a7cd2" />
-
 ## 7. Introduction to Yosys
 
 Yosys is an open-source RTL synthesis framework used to convert Verilog hardware descriptions into optimized logic representations and gate-level netlists.
@@ -304,35 +264,6 @@ Yosys is an open-source RTL synthesis framework used to convert Verilog hardware
 7. Generate the gate-level netlist.
 8. Analyze synthesis statistics.
 
-**Yosys Flow Diagram:**
-
-```text
-       Verilog RTL
-            |
-            v
-       Read Verilog
-            |
-            v
-      Design Hierarchy
-            |
-            v
-       Process Logic
-            |
-            v
-        Optimization
-            |
-            v
-      Logic Synthesis
-            |
-            v
-     Technology Mapping
-            |
-            v
-     Gate-Level Netlist
-            |
-            v
-    Synthesis Statistics
-```
 
 ## 8. Understanding Logic Synthesis
 

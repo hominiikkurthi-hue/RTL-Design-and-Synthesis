@@ -94,7 +94,7 @@ A simple multiplexer can be described using Verilog.
 The multiplexer selects one of two input signals depending on the select signal.
 
 **Design file:** `good_mux.v`
-
+```
 module good_mux(input i0, input i1, input sel, output reg y);
 
 always @(*)
@@ -106,7 +106,7 @@ begin
 end
 
 endmodule
-
+```
 **Explanation:**
 
 - `i0` and `i1` are the input signals.
@@ -360,7 +360,7 @@ This generates the technology-mapped Verilog netlist.
 <img width="959" height="539" alt="syn1" src="https://github.com/user-attachments/assets/62c1ddaf-ca7a-4c05-9bf6-d9c4ca20e638" />
 
 
-## 13. Results and Observations
+## 11. Results and Observations
 
 The practical implementation demonstrates the following results:
 
@@ -376,7 +376,7 @@ The practical implementation demonstrates the following results:
 | Netlist Generation | Gate-level Verilog generated |
 | Verification | Synthesized design checked |
 
-## 16. Conclusion
+## 12. Conclusion
 
 This project provides practical understanding of RTL design, functional simulation, and logic synthesis using open-source VLSI tools.
 
@@ -384,7 +384,7 @@ It demonstrates how Verilog RTL is processed, optimized, and converted into a ga
 
 The project also introduces Liberty files, technology mapping, and post-synthesis verification, providing a foundation for further learning in ASIC design and physical design.
 
-## 17. References
+## 13. References
 
 - [Yosys Documentation](https://yosyshq.readthedocs.io/)
 - [Icarus Verilog Documentation](https://steveicarus.github.io/iverilog/)

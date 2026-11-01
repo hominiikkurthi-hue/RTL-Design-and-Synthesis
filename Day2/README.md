@@ -138,6 +138,8 @@ endmodule
 Yosys identifies the asynchronous reset behavior and maps the design to a suitable resettable flip-flop. If the available library cell has an active-low reset pin, additional inversion logic may be required to match the RTL reset polarity.
 
 **Screenshot:** `4_async_res.png`
+<img width="956" height="539" alt="day2-6i" src="https://github.com/user-attachments/assets/bf8932c4-6645-4a46-92ff-dd6fde11d963" />
+
 
 ### B. Asynchronous Set
 
@@ -175,6 +177,9 @@ Yosys recognizes the asynchronous set condition and maps the RTL to a suitable s
 
 **Screenshot:** `5_async_set.png`
 
+<img width="959" height="539" alt="day2-7asynset" src="https://github.com/user-attachments/assets/ca50f252-fb03-4d5b-80b0-02a636b1259a" />
+
+
 ### C. Synchronous Reset
 
 A synchronous reset flip-flop resets its output only at the active clock edge. Unlike asynchronous reset, activating the reset signal alone does not immediately change the output.
@@ -211,6 +216,9 @@ Yosys implements synchronous reset behavior using a suitable flip-flop and assoc
 
 **Screenshot:** `6_sync_reset.png`
 
+<img width="956" height="536" alt="day2-8syn" src="https://github.com/user-attachments/assets/9f18e028-c8be-41f3-9588-4d34aaeb9ad8" />
+
+
 ### Comparison of Flip-Flop Types
 
 | Parameter | Async Reset | Async Set | Sync Reset |
@@ -246,6 +254,9 @@ The least significant bit is filled with zero. This operation can be implemented
 
 **Screenshot:** `7_mult_2.png`
 
+<img width="959" height="535" alt="day2-10mul2" src="https://github.com/user-attachments/assets/cf88b56b-2486-4812-a48a-82854145e792" />
+
+
 ### B. Multiplication by 9
 
 Multiplication by 9 can be expressed as the sum of the input and its value shifted left by three positions.
@@ -275,6 +286,7 @@ assign y = {a, a};
 This representation demonstrates how constant multiplication can be simplified using bit concatenation and arithmetic properties.
 
 **Screenshot:** `8_mult_8.png`
+<img width="959" height="539" alt="day2-11mul8" src="https://github.com/user-attachments/assets/d10369af-5020-43ee-a85f-309091eee8ea" />
 
 ---
 

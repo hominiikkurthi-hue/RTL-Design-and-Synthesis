@@ -142,6 +142,8 @@ Since the output is always constant, the flip-flop is unnecessary. Yosys identif
 
 <img width="959" height="539" alt="day3-8seq2" src="https://github.com/user-attachments/assets/ba12295f-8ea5-4b3f-be48-c840def2d7b0" />
 
+**Synthesis and Optimization Results of dff_const1 and dff_const2**
+
 <img width="959" height="539" alt="day3-9seq" src="https://github.com/user-attachments/assets/ee7dad0e-feb5-44e4-8f13-709c073b5c51" />
 
 
@@ -166,7 +168,7 @@ Both flip-flops are retained because the outputs depend on their stored values a
 
 <img width="959" height="538" alt="day3-10" src="https://github.com/user-attachments/assets/8400fd32-4271-47dc-9ad3-ad20cc19084d" />
 
-
+**
 ### 3.4 dff_const4 – Constant Sequential Optimization
 
 The `dff_const4` design contains two flip-flops with reset and normal operating conditions assigning logic `1` to their respective outputs.

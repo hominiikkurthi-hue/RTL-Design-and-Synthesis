@@ -185,7 +185,7 @@ Both outputs remain at logic `1` regardless of the clock and reset conditions.
 
 Since both sequential outputs are constant, the flip-flops are unnecessary. Yosys optimizes the sequential elements away and replaces them with constant connections.
 
-**Screenshots**
+**Synthesis Schematic – dff_const4**
 
 <img width="959" height="538" alt="day3-12" src="https://github.com/user-attachments/assets/d087f7bd-b29a-44d7-87ff-0eaa782802df" />
 
@@ -202,7 +202,7 @@ During reset, both outputs become `0`. After reset is deactivated, `q1` becomes 
 
 Unlike the previous constant-output experiment, the outputs are not always constant. The sequential behavior must be preserved, so the registers remain in the synthesized design.
 
-**Screenshots**
+**Synthesis Schematic – dff_const5**
 
 <img width="959" height="536" alt="day3-12 1" src="https://github.com/user-attachments/assets/2d36e14d-edc8-46e2-b8e1-d40d459e06e0" />
 
@@ -235,7 +235,7 @@ Although the original design contains a 3-bit counter, Yosys identifies that onl
 
 The unused counter bits and their associated logic are removed. The optimized circuit requires only one flip-flop instead of three.
 
-**Screenshots**
+**Screenshot**
 
 <img width="959" height="539" alt="day3-13" src="https://github.com/user-attachments/assets/e6fbfe7d-2339-47d5-8746-c75cff8ea617" />
 
@@ -258,7 +258,7 @@ Since all three counter bits contribute to the output comparison, Yosys must ret
 
 Unlike `counter_opt`, the unused-bit optimization cannot remove the upper counter bits because they affect the output.
 
-**Screenshots**
+**Screenshot**
 
 <img width="959" height="538" alt="day3-14" src="https://github.com/user-attachments/assets/3a6dc505-ce79-4377-b3b0-377c9b38d012" />
 

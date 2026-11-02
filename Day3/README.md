@@ -141,7 +141,9 @@ Since the output is always constant, the flip-flop is unnecessary. Yosys identif
 
 <img width="959" height="539" alt="day3-8seq2" src="https://github.com/user-attachments/assets/ba12295f-8ea5-4b3f-be48-c840def2d7b0" />
 
+
 **Synthesis and Optimization Results of dff_const1 and dff_const2**
+
 
 <img width="959" height="539" alt="day3-9seq" src="https://github.com/user-attachments/assets/ee7dad0e-feb5-44e4-8f13-709c073b5c51" />
 

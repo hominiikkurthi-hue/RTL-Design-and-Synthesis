@@ -111,7 +111,9 @@ When reset is high, the output `q` is assigned logic `0`. When reset is low, the
 **Simulation Observation:**
 
 When reset becomes active, the output changes to `0` immediately. When reset is deactivated, the output changes to `1` only at the next positive clock edge.
+
 **Simulation of dff_const1 – RTL Code, Testbench Execution and Waveform**
+
 <img width="959" height="538" alt="day3-7seq" src="https://github.com/user-attachments/assets/e0e279cf-2e5b-43eb-994d-ef79cb5fc556" />
 
 **Synthesis Observation:**
@@ -119,9 +121,6 @@ When reset becomes active, the output changes to `0` immediately. When reset is 
 The flip-flop is retained because the output can have both logic `0` and logic `1` values depending on the reset and clock conditions. Therefore, it cannot be replaced with a constant connection.
 
 The SKY130 library implementation uses an active-low reset flip-flop, so an inverter is used to obtain the required reset polarity.
-
-**Screenshots**
-
 
 
 ### 3.2 dff_const2 – Sequential Constant Propagation
@@ -168,7 +167,10 @@ Both flip-flops are retained because the outputs depend on their stored values a
 
 <img width="959" height="538" alt="day3-10" src="https://github.com/user-attachments/assets/8400fd32-4271-47dc-9ad3-ad20cc19084d" />
 
-**
+**Synthesis Schematic – dff_const3**
+
+<img width="959" height="539" alt="day3-11" src="https://github.com/user-attachments/assets/50ef2787-afe6-4da9-8708-5d6dce6995fe" />
+
 ### 3.4 dff_const4 – Constant Sequential Optimization
 
 The `dff_const4` design contains two flip-flops with reset and normal operating conditions assigning logic `1` to their respective outputs.

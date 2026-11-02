@@ -86,6 +86,20 @@ assign y = sel ? i1 : i0;
 The synthesized multiplexer is checked against the original RTL design to verify that the expected selection functionality is maintained.
 
 **Screenshot:** Add your RTL waveform, synthesized netlist and GLS waveform here.
+**RTL Waveform**
+
+<img width="959" height="528" alt="day4-1" src="https://github.com/user-attachments/assets/38a415c7-0f94-4831-82a4-7018fe349ac8" />
+
+**Synthesized netlist**
+
+<img width="959" height="538" alt="day4-2" src="https://github.com/user-attachments/assets/08467edf-e9e7-4e30-bec5-48bb7b745327" />
+
+**GLS Waveform**
+<img width="959" height="532" alt="day4-3gls" src="https://github.com/user-attachments/assets/82c916d9-c4d2-4743-bd6d-ded34594035d" />
+
+
+
+
 
 ---
 
@@ -138,6 +152,8 @@ The `@(*)` automatically includes the signals read inside the block in the sensi
 - Using `always @(*)` helps avoid this type of mismatch.
 
 **Screenshot:** Add the RTL and GLS waveforms showing the mismatch and corrected behavior.
+
+<img width="959" height="539" alt="day4-4" src="https://github.com/user-attachments/assets/79d0c5dc-c062-46ee-a362-3e2f9257635c" />
 
 ---
 

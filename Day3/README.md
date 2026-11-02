@@ -139,6 +139,7 @@ Since the output is always constant, the flip-flop is unnecessary. Yosys identif
 **Screenshots**
 
 **Simulation of dff_const2 – RTL Code, Testbench Execution and Waveform**
+
 <img width="959" height="539" alt="day3-8seq2" src="https://github.com/user-attachments/assets/ba12295f-8ea5-4b3f-be48-c840def2d7b0" />
 
 <img width="959" height="539" alt="day3-9seq" src="https://github.com/user-attachments/assets/ee7dad0e-feb5-44e4-8f13-709c073b5c51" />
@@ -162,6 +163,7 @@ Both flip-flops are retained because the outputs depend on their stored values a
 
 **Screenshots**
 **GTKWave observation**
+
 <img width="959" height="538" alt="day3-10" src="https://github.com/user-attachments/assets/8400fd32-4271-47dc-9ad3-ad20cc19084d" />
 
 
@@ -181,11 +183,8 @@ Since both sequential outputs are constant, the flip-flops are unnecessary. Yosy
 
 **Screenshots**
 
-![dff_const4 RTL code](images/dff_const4_rtl.png)
+<img width="959" height="538" alt="day3-12" src="https://github.com/user-attachments/assets/d087f7bd-b29a-44d7-87ff-0eaa782802df" />
 
-![dff_const4 simulation waveform](images/dff_const4_simulation.png)
-
-![dff_const4 synthesized schematic](images/dff_const4_synthesis.png)
 
 ### 3.5 dff_const5 – Registers Preserved During Synthesis
 
@@ -201,11 +200,8 @@ Unlike the previous constant-output experiment, the outputs are not always const
 
 **Screenshots**
 
-![dff_const5 RTL code](images/dff_const5_rtl.png)
+<img width="959" height="536" alt="day3-12 1" src="https://github.com/user-attachments/assets/2d36e14d-edc8-46e2-b8e1-d40d459e06e0" />
 
-![dff_const5 simulation waveform](images/dff_const5_simulation.png)
-
-![dff_const5 synthesized schematic](images/dff_const5_synthesis.png)
 
 ---
 
@@ -237,9 +233,8 @@ The unused counter bits and their associated logic are removed. The optimized ci
 
 **Screenshots**
 
-![counter_opt RTL code](images/counter_opt_rtl.png)
+<img width="959" height="539" alt="day3-13" src="https://github.com/user-attachments/assets/e6fbfe7d-2339-47d5-8746-c75cff8ea617" />
 
-![counter_opt synthesized schematic](images/counter_opt_synthesis.png)
 
 ### 4.2 counter_opt2 – Counter with All Bits Used in Output Logic
 
@@ -261,11 +256,8 @@ Unlike `counter_opt`, the unused-bit optimization cannot remove the upper counte
 
 **Screenshots**
 
-![counter_opt2 RTL code](images/counter_opt2_rtl.png)
+<img width="959" height="538" alt="day3-14" src="https://github.com/user-attachments/assets/3a6dc505-ce79-4377-b3b0-377c9b38d012" />
 
-![counter_opt2 synthesized schematic](images/counter_opt2_synthesis.png)
-
----
 
 ## 5. Simulation and Synthesis
 
@@ -316,18 +308,6 @@ clean
 
 show
 ```
-
-For the remaining experiments, change the Verilog filename and top-module name.
-
-| Experiment | Verilog file | Top module |
-|---|---|---|
-| dff_const1 | `dff_const1.v` | `dff_const1` |
-| dff_const2 | `dff_const2.v` | `dff_const2` |
-| dff_const3 | `dff_const3.v` | `dff_const3` |
-| dff_const4 | `dff_const4.v` | `dff_const4` |
-| dff_const5 | `dff_const5.v` | `dff_const5` |
-| counter_opt | `counter_opt.v` | `counter_opt` |
-| counter_opt2 | `counter_opt2.v` | `counter_opt2` |
 
 ### 5.3 Understanding the Yosys Commands
 

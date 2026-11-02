@@ -124,15 +124,6 @@ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
 ```
 
-For each experiment, change the Verilog filename and top-module name to match the design being synthesized.
-
-| Experiment | Verilog file | Top module |
-|---|---|---|
-| opt_check | `opt_check.v` | `opt_check` |
-| opt_check2 | `opt_check2.v` | `opt_check2` |
-| opt_check3 | `opt_check3.v` | `opt_check3` |
-| opt_check4 | `opt_check4.v` | `opt_check4` |
-
 For the multiple-module experiments, use the corresponding Verilog source files and the appropriate top module from your design.
 
 ### Command Description

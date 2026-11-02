@@ -94,48 +94,275 @@ The synthesized output is examined to observe how Yosys processes the modules an
 
 
 ---
+## 3. Sequential Logic Optimizations
 
-## 4. Yosys Commands
+Sequential logic optimization is used to simplify digital circuits containing flip-flops and other storage elements. Unlike combinational circuits, sequential circuits depend on the current inputs, clock transitions and previously stored values.
 
-The following commands are used for reading the SKY130 library, loading Verilog files, performing synthesis, and viewing the optimized circuits.
+The main concept explored in this section is **Sequential Constant Propagation**. It identifies whether a flip-flop output always produces a constant value. If a register is unnecessary, the synthesis tool can remove it and replace it with a constant connection.
 
-### Open Yosys
+In this section, five different Verilog designs are simulated and synthesized using Icarus Verilog and Yosys to understand how sequential logic is optimized.
+
+### 3.1 dff_const1 – Flip-Flop with Asynchronous Reset
+
+The `dff_const1` design contains a flip-flop with an asynchronous active-high reset.
+
+When reset is high, the output `q` is assigned logic `0`. When reset is low, the output is assigned logic `1` at the next positive edge of the clock.
+
+**Simulation Observation:**
+
+When reset becomes active, the output changes to `0` immediately. When reset is deactivated, the output changes to `1` only at the next positive clock edge.
+**Simulation of dff_const1 – RTL Code, Testbench Execution and Waveform**
+<img width="959" height="538" alt="day3-7seq" src="https://github.com/user-attachments/assets/e0e279cf-2e5b-43eb-994d-ef79cb5fc556" />
+
+**Synthesis Observation:**
+
+The flip-flop is retained because the output can have both logic `0` and logic `1` values depending on the reset and clock conditions. Therefore, it cannot be replaced with a constant connection.
+
+The SKY130 library implementation uses an active-low reset flip-flop, so an inverter is used to obtain the required reset polarity.
+
+**Screenshots**
+
+
+
+### 3.2 dff_const2 – Sequential Constant Propagation
+
+The `dff_const2` design assigns logic `1` to the output `q` during both reset and normal operating conditions.
+
+**Simulation Observation:**
+
+The output remains at logic `1` regardless of the clock and reset conditions.
+
+**Synthesis Observation:**
+
+Since the output is always constant, the flip-flop is unnecessary. Yosys identifies this condition and optimizes the sequential element away, leaving a constant logic connection.
+
+**Screenshots**
+
+**Simulation of dff_const2 – RTL Code, Testbench Execution and Waveform**
+<img width="959" height="539" alt="day3-8seq2" src="https://github.com/user-attachments/assets/ba12295f-8ea5-4b3f-be48-c840def2d7b0" />
+
+<img width="959" height="539" alt="day3-9seq" src="https://github.com/user-attachments/assets/ee7dad0e-feb5-44e4-8f13-709c073b5c51" />
+
+
+### 3.3 dff_const3 – Sequential Dependency Between Flip-Flops
+
+The `dff_const3` design contains two flip-flops. The output of one flip-flop is connected to the input of another flip-flop.
+
+During reset, `q` is assigned `1` and `q1` is assigned `0`. During normal operation, `q1` is assigned `1`, while `q` receives the previous stored value of `q1`.
+
+**Simulation Observation:**
+
+When reset is deactivated, `q1` becomes `1` at the next positive clock edge. The output `q` receives the previous value of `q1` and changes to `1` at a subsequent clock edge.
+
+This demonstrates the dependency between the two sequential elements.
+
+**Synthesis Observation:**
+
+Both flip-flops are retained because the outputs depend on their stored values and clock transitions. The sequential behavior cannot be replaced with a constant connection.
+
+**Screenshots**
+**GTKWave observation**
+<img width="959" height="538" alt="day3-10" src="https://github.com/user-attachments/assets/8400fd32-4271-47dc-9ad3-ad20cc19084d" />
+
+
+### 3.4 dff_const4 – Constant Sequential Optimization
+
+The `dff_const4` design contains two flip-flops with reset and normal operating conditions assigning logic `1` to their respective outputs.
+
+During reset, both `q` and `q1` are assigned `1`. During normal operation, `q1` is assigned `1` and `q` receives the value of `q1`.
+
+**Simulation Observation:**
+
+Both outputs remain at logic `1` regardless of the clock and reset conditions.
+
+**Synthesis Observation:**
+
+Since both sequential outputs are constant, the flip-flops are unnecessary. Yosys optimizes the sequential elements away and replaces them with constant connections.
+
+**Screenshots**
+
+![dff_const4 RTL code](images/dff_const4_rtl.png)
+
+![dff_const4 simulation waveform](images/dff_const4_simulation.png)
+
+![dff_const4 synthesized schematic](images/dff_const4_synthesis.png)
+
+### 3.5 dff_const5 – Registers Preserved During Synthesis
+
+The `dff_const5` design contains two flip-flops with both outputs assigned logic `0` during reset. During normal operation, `q1` is assigned logic `1`, and `q` receives the stored value of `q1`.
+
+**Simulation Observation:**
+
+During reset, both outputs become `0`. After reset is deactivated, `q1` becomes `1` at the next positive clock edge. The output `q` follows the stored value of `q1` at a subsequent clock edge.
+
+**Synthesis Observation:**
+
+Unlike the previous constant-output experiment, the outputs are not always constant. The sequential behavior must be preserved, so the registers remain in the synthesized design.
+
+**Screenshots**
+
+![dff_const5 RTL code](images/dff_const5_rtl.png)
+
+![dff_const5 simulation waveform](images/dff_const5_simulation.png)
+
+![dff_const5 synthesized schematic](images/dff_const5_synthesis.png)
+
+---
+
+## 4. Sequential Optimizations for Unused Outputs
+
+Unused-output optimization is another important technique in sequential synthesis.
+
+A digital design may contain several registers, but not every register necessarily contributes to the required output. If some register bits do not affect the primary output, the synthesis tool can remove the unnecessary logic.
+
+In this section, two counter designs are used to understand how Yosys identifies unused counter bits and optimizes the circuit.
+
+### 4.1 counter_opt – Optimization of Unused Counter Bits
+
+The `counter_opt` design describes a 3-bit up counter with an asynchronous reset.
+
+The counter increments by one at every positive edge of the clock. However, the output is connected only to the least significant bit of the counter.
+
+```verilog
+assign q = count[0];
+```
+
+The other two counter bits, `count[1]` and `count[2]`, are not used to generate the output.
+
+**Synthesis Observation:**
+
+Although the original design contains a 3-bit counter, Yosys identifies that only the least significant bit is required for the output.
+
+The unused counter bits and their associated logic are removed. The optimized circuit requires only one flip-flop instead of three.
+
+**Screenshots**
+
+![counter_opt RTL code](images/counter_opt_rtl.png)
+
+![counter_opt synthesized schematic](images/counter_opt_synthesis.png)
+
+### 4.2 counter_opt2 – Counter with All Bits Used in Output Logic
+
+The `counter_opt2` experiment modifies the output condition of the previous counter design.
+
+Instead of using only the least significant bit, the output is generated by comparing the complete 3-bit counter value with a constant value.
+
+```verilog
+assign q = (count[2:0] == 3'b100);
+```
+
+Here, all three counter bits are required to determine whether the counter has reached the value `100`.
+
+**Synthesis Observation:**
+
+Since all three counter bits contribute to the output comparison, Yosys must retain the required counter registers and associated logic.
+
+Unlike `counter_opt`, the unused-bit optimization cannot remove the upper counter bits because they affect the output.
+
+**Screenshots**
+
+![counter_opt2 RTL code](images/counter_opt2_rtl.png)
+
+![counter_opt2 synthesized schematic](images/counter_opt2_synthesis.png)
+
+---
+
+## 5. Simulation and Synthesis
+
+The following tools and commands are used to simulate the sequential designs and examine their synthesized implementations.
+
+### 5.1 Verilog Simulation Using Icarus Verilog
+
+Move to the Verilog files directory:
 
 ```bash
 cd ~/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+```
+
+Use the following command sequence for each experiment. Change the design and testbench filenames accordingly.
+
+```bash
+iverilog dff_const1.v tb_dff_const1.v
+./a.out
+gtkwave tb_dff_const1.vcd
+```
+
+Repeat the same procedure for `dff_const2`, `dff_const3`, `dff_const4` and `dff_const5` using their corresponding testbench files.
+
+For the counter designs, use their corresponding testbenches and VCD files if available.
+
+### 5.2 Synthesis Using Yosys
+
+Start Yosys from the Verilog files directory:
+
+```bash
 yosys
 ```
 
-### Synthesis and Technology Mapping
-
-Run these commands inside the Yosys prompt:
+Run the following commands inside the Yosys prompt:
 
 ```tcl
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog opt_check.v
+read_verilog dff_const1.v
 
-synth -top opt_check -noabc
+synth -top dff_const1 -noabc
 
-opt_clean -purge
+dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
 
 show
 ```
 
-For the multiple-module experiments, use the corresponding Verilog source files and the appropriate top module from your design.
+For the remaining experiments, change the Verilog filename and top-module name.
 
-### Command Description
+| Experiment | Verilog file | Top module |
+|---|---|---|
+| dff_const1 | `dff_const1.v` | `dff_const1` |
+| dff_const2 | `dff_const2.v` | `dff_const2` |
+| dff_const3 | `dff_const3.v` | `dff_const3` |
+| dff_const4 | `dff_const4.v` | `dff_const4` |
+| dff_const5 | `dff_const5.v` | `dff_const5` |
+| counter_opt | `counter_opt.v` | `counter_opt` |
+| counter_opt2 | `counter_opt2.v` | `counter_opt2` |
+
+### 5.3 Understanding the Yosys Commands
 
 | Command | Description |
 |---|---|
 | `read_liberty -lib` | Loads the SKY130 standard-cell library. |
 | `read_verilog` | Reads the Verilog source file. |
 | `synth -top -noabc` | Performs synthesis without ABC technology mapping. |
-| `opt_clean -purge` | Removes unused logic and design elements. |
-| `abc -liberty` | Performs technology mapping using the SKY130 library. |
+| `dfflibmap -liberty` | Maps internal flip-flop cells to available library cells. |
+| `abc -liberty` | Maps combinational logic using the SKY130 library. |
+| `clean` | Removes unused design elements. |
 | `show` | Displays the synthesized circuit. |
 
 ---
 
+## 6. Key Observations
+
+- Sequential constant propagation identifies flip-flops whose outputs always remain constant.
+- Flip-flops are retained when their outputs depend on clock transitions and stored values.
+- Sequential dependencies between registers can prevent unnecessary removal of flip-flops.
+- Unused counter bits can be removed when they do not contribute to the primary output.
+- When all counter bits are required for output logic, the necessary registers are retained.
+- Yosys optimizes the circuit based on the functionality required at the outputs.
+
+## Conclusion
+
+Through these experiments, I gained practical understanding of sequential logic optimization and unused-output optimization using Yosys. By simulating and synthesizing different flip-flop and counter designs, I observed how constant sequential elements are removed, required registers are preserved, and unused counter bits are eliminated.
+
+The synthesized schematics helped me understand how RTL designs are optimized and mapped into the SKY130 standard-cell library, reducing unnecessary hardware while maintaining the required functionality.
+
+## Tools Used
+
+- Verilog HDL
+- Icarus Verilog
+- GTKWave
+- Yosys
+- SKY130 HD Standard-Cell Library
+- Graphviz

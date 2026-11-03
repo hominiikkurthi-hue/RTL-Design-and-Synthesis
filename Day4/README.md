@@ -150,8 +150,17 @@ The `@(*)` automatically includes the signals read inside the block in the sensi
 - Using `always @(*)` helps avoid this type of mismatch.
 
 **Screenshot:** Add the RTL and GLS waveforms showing the mismatch and corrected behavior.
-
+**RTL Waveform**
 <img width="959" height="539" alt="day4-4" src="https://github.com/user-attachments/assets/79d0c5dc-c062-46ee-a362-3e2f9257635c" />
+
+**Synthesized netlist**
+<img width="959" height="539" alt="day4badmuxxsch" src="https://github.com/user-attachments/assets/34bde994-e211-43c0-bcd7-f30071b38c5d" />
+
+**GLS Waveform**
+
+<img width="959" height="533" alt="day4gls" src="https://github.com/user-attachments/assets/dea2377d-11c5-4a7c-ac1a-19c3914a3f3f" />
+
+
 
 ---
 

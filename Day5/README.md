@@ -12,6 +12,8 @@ This session covers conditional constructs, incomplete assignments, overlapping 
 - Incomplete If and Case Statements
 - Incomplete and Overlapping Case Statements
 - For Loop and For Generate
+- MUX and DEMUX Implementations
+- Ripple Carry Adder Using Generate
 - Synthesis Optimization Techniques
 
 ---
@@ -31,6 +33,30 @@ The `if-else` statement evaluates a condition and executes the corresponding blo
 - Commonly used to describe priority-based logic.
 - Can infer multiplexers during synthesis.
 
+### Verilog Code – If-Else
+
+```verilog
+module if_else_mux (
+    input cond1,
+    input cond2,
+    input a,
+    input b,
+    input c,
+    output reg y
+);
+
+always @(*) begin
+    if (cond1)
+        y = a;
+    else if (cond2)
+        y = b;
+    else
+        y = c;
+end
+
+endmodule
+```
+
 ## 1.2 Case Construct
 
 The `case` statement compares an expression with multiple possible values and executes the corresponding matching branch.
@@ -42,10 +68,39 @@ The `case` statement compares an expression with multiple possible values and ex
 - A `default` branch handles unmatched values.
 - Complete assignments help avoid unintended latch inference.
 
-<img width="428" height="182" alt="ifandelse" src="https://github.com/user-attachments/assets/2a18212a-87fb-4223-8b26-5dc8b6341441" />
+### Verilog Code – Case
 
+```verilog
+module case_mux (
+    input i0,
+    input i1,
+    input i2,
+    input i3,
+    input [1:0] sel,
+    output reg y
+);
+
+always @(*) begin
+    case (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+        2'b10: y = i2;
+        2'b11: y = i3;
+        default: y = 1'b0;
+    endcase
+end
+
+endmodule
+```
+
+**Explanation:**
+
+The select signal determines which input is connected to the output. Since every possible 2-bit selection is covered, the output is assigned for all conditions.
 
 ## 1.3 Difference Between If-Else and Case
+
+<img width="428" height="182" alt="ifandelse" src="https://github.com/user-attachments/assets/3e0a68ae-07ba-4048-a9dd-ccec2ae860f1" />
+
 
 | If-Else | Case |
 |---|---|
@@ -67,7 +122,22 @@ Incomplete assignments occur when an output is not assigned for every possible e
 
 An incomplete `if` statement occurs when an output is assigned only under a particular condition, without specifying its behavior for the remaining conditions.
 
-When no new assignment is made, the output retains its previous value. This behavior can cause a level-sensitive latch to be inferred during synthesis.
+### Verilog Code – Incomplete If
+
+```verilog
+module incomp_if (
+    input i0,
+    input i1,
+    output reg y
+);
+
+always @(*) begin
+    if (i0)
+        y = i1;
+end
+
+endmodule
+```
 
 **Important points:**
 - Missing assignments can introduce latches.
@@ -75,53 +145,129 @@ When no new assignment is made, the output retains its previous value. This beha
 - All possible conditions should be covered in combinational logic.
 - Complete assignments help produce predictable hardware.
 
-**RTL Description**
+### Simulation Results
 
-*Insert screenshot here.*
+<img width="959" height="539" alt="day5-2" src="https://github.com/user-attachments/assets/960ec27b-dcc8-4b33-bfa4-b4fd8099786e" />
 
-**Explanation:** The RTL description demonstrates an incomplete conditional assignment in which the output is not assigned for every possible condition.
-
-**Simulation Results**
-
-*Insert screenshot here.*
 
 **Explanation:** The waveform illustrates how the output retains its previous value when the specified assignment condition is not satisfied.
 
-**Synthesis Results**
+### Synthesis Results
 
-*Insert screenshot here.*
+<img width="959" height="538" alt="day5-3" src="https://github.com/user-attachments/assets/5a7f3f46-56a6-42e0-9344-1acd56bce83a" />
+
 
 **Explanation:** The synthesis result helps identify the latch inferred due to the incomplete assignment.
 
-## 2.2 Incomplete Case Statement
+## 2.2 Multiple Incomplete If Conditions
+
+### Verilog Code – Multiple Incomplete If
+
+```verilog
+module incomp_if2 (
+    input i0,
+    input i1,
+    input i2,
+    input i3,
+    output reg y
+);
+
+always @(*) begin
+    if (i0)
+        y = i1;
+    else if (i2)
+        y = i3;
+end
+
+endmodule
+```
+
+**Explanation:**
+
+- When `i0` is high, output `y` follows `i1`.
+- When `i0` is low and `i2` is high, output `y` follows `i3`.
+- When both conditions are low, `y` retains its previous value.
+
+Since there is no final `else` assignment, a latch is inferred.
+
+### Simulation Results
+
+<img width="959" height="539" alt="day5-4" src="https://github.com/user-attachments/assets/a88de0b7-525f-4737-bfab-292d1deade3f" />
+
+
+### Synthesis Results
+
+<img width="959" height="534" alt="day5-5" src="https://github.com/user-attachments/assets/a4ee8b68-7420-4c75-9d09-5ee6796ca5a1" />
+
+
+## 2.3 Incomplete Case Statement
 
 An incomplete `case` statement does not specify an output assignment for every possible input combination.
 
-When no case item matches and no alternative assignment is provided, the output must retain its previous value.
+### Verilog Code – Incomplete Case
 
-**Important points:**
-- Missing case items can cause latch inference.
-- A `default` branch can handle unmatched input combinations.
-- Complete case descriptions are important for combinational logic.
-- Synthesis results help identify inferred storage elements.
+```verilog
+module incomp_case (
+    input i0,
+    input i1,
+    input [1:0] sel,
+    output reg y
+);
 
-**RTL Description**
+always @(*) begin
+    case (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+    endcase
+end
 
-*Insert screenshot here.*
+endmodule
+```
 
-**Explanation:** The RTL code shows a case statement in which some possible input combinations are not covered.
+**Explanation:**
 
-**Simulation Results**
+For `sel = 2'b10` or `sel = 2'b11`, there is no assignment to `y`. Therefore, the output retains its previous value and synthesis infers a latch.
 
-*Insert screenshot here.*
+### Simulation Results
 
-**Explanation:** The waveform demonstrates the output behavior for both matched and unmatched case conditions.
+<img width="959" height="538" alt="day5-6case" src="https://github.com/user-attachments/assets/c55bb772-b30b-477d-be28-cf56ba321ea5" />
 
-**Synthesis Results**
 
-*Insert screenshot here.*
+### Synthesis Results
 
-**Explanation:** The synthesized hardware illustrates the effect of incomplete case assignments and the resulting latch inference.
+<img width="959" height="539" alt="day5-6 1case" src="https://github.com/user-attachments/assets/cef84e81-10c4-4a0f-86b1-cce0f7053cfd" />
+
+
+## 2.4 Complete vs Incomplete Case
+
+### Complete Case Code
+
+```verilog
+always @(*) begin
+    case (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+        default: y = i2;
+    endcase
+end
+```
+
+The `default` branch handles the remaining input combinations.
+
+### Incomplete Case Code
+
+```verilog
+always @(*) begin
+    case (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+    endcase
+end
+```
+
+For the remaining input combinations, the output is not assigned.
+
+**Observation:** The complete case can be implemented as combinational logic, whereas the incomplete case can infer a latch.
 
 ---
 
@@ -129,61 +275,124 @@ When no case item matches and no alternative assignment is provided, the output 
 
 This section focuses on understanding the effects of incomplete conditions and overlapping selection conditions in Verilog.
 
-## 3.1 Incomplete Case Conditions
+## 3.1 Partial Assignments in Case Statements
 
-An incomplete case description does not cover every possible input combination. When an unmatched condition occurs, the output may retain its previous value.
+Even when a `default` branch is present, a latch can still be inferred if every output is not assigned in every branch.
 
-**Important observations:**
-- Not all input combinations are covered.
-- Missing assignments can result in latch inference.
-- A default assignment helps define the behavior of unmatched conditions.
-- Simulation and synthesis results help identify incomplete logic.
+### Verilog Code – Partial Case Assignment
 
-**RTL Description**
+```verilog
+module partial_case_assign (
+    input i0,
+    input i1,
+    input i2,
+    input [1:0] sel,
+    output reg y,
+    output reg x
+);
 
-*Insert screenshot here.*
+always @(*) begin
+    case (sel)
+        2'b00: begin
+            y = i0;
+            x = i2;
+        end
 
-**Explanation:** The RTL demonstrates how missing case conditions affect the description of combinational logic.
+        2'b01: begin
+            y = i1;
+        end
 
-**Simulation Results**
+        default: begin
+            y = i2;
+            x = i1;
+        end
+    endcase
+end
 
-*Insert screenshot here.*
+endmodule
+```
 
-**Explanation:** The waveform shows the behavior of the output when different input combinations are applied, including conditions that are not explicitly covered.
+**Explanation:**
+
+- `y` is assigned in every case branch.
+- `x` is assigned in the `00` and default branches.
+- When `sel = 01`, `x` has no assignment.
+- Therefore, synthesis infers a latch for `x`, but not for `y`.
+
+**Key observation:** Latch inference is determined separately for each output.
+
+### Simulation Results
+
+*Insert your GTKWave screenshot here.*
+
+### Synthesis Results
+
+*Insert your Yosys schematic here.*
 
 ## 3.2 Overlapping Case Conditions
 
-Overlapping conditions occur when multiple selection conditions can match the same input combination. Understanding these conditions is important for predicting the behavior of RTL descriptions.
+Overlapping conditions occur when multiple selection patterns can match the same input combination.
+
+### Verilog Code – Bad Case
+
+```verilog
+module bad_case (
+    input i0,
+    input i1,
+    input i2,
+    input i3,
+    input [1:0] sel,
+    output reg y
+);
+
+always @(*) begin
+    case (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+        2'b10: y = i2;
+        2'b1?: y = i3;
+    endcase
+end
+
+endmodule
+```
+
+**Explanation:**
+
+In a regular `case` statement, matching is exact. The `?` is not a general wildcard.
+
+For wildcard matching, `casez` can be used.
+
+### Verilog Code – Casez
+
+```verilog
+always @(*) begin
+    casez (sel)
+        2'b00: y = i0;
+        2'b01: y = i1;
+        2'b10: y = i2;
+        2'b1?: y = i3;
+        default: y = 1'b0;
+    endcase
+end
+```
+
+Here, `2'b1?` matches both `2'b10` and `2'b11`. Therefore, it overlaps with the earlier `2'b10` condition.
 
 **Important observations:**
 - Conditions must be examined carefully.
 - Priority-based conditional statements follow their evaluation order.
-- Ordinary `case` items use matching rules, while wildcard case constructs require additional attention.
-- Incomplete assignments can still introduce latch inference.
+- Wildcard case constructs require additional attention.
+- Overlapping patterns can cause differences between RTL and synthesized behavior.
+- `casex` should generally be avoided in synthesizable RTL because it can hide unknown values.
 
-**RTL Description – Part 1**
+### Simulation Results
 
-*Insert screenshot here.*
+*Insert your RTL and gate-level simulation screenshots here.*
 
-**Explanation:** This section demonstrates the initial RTL structure and the conditions used in the case description.
+### Synthesis Results
 
-**RTL and Simulation – Part 2**
-
-*Insert screenshot here.*
-
-**Explanation:** The results illustrate how the specified conditions influence the output behavior.
-
-**Synthesis Analysis – Part 3**
-
-*Insert screenshot here.*
-
-**Explanation:** The synthesis result helps understand how the overlapping and incomplete conditions are represented in hardware.
-
-**Final Observation – Part 4**
-
-*Insert screenshot here.*
-
-**Explanation:** This experiment highlights the importance of understanding case matching, condition coverage, and output assignments when writing synthesizable RTL.
+*Insert your Yosys schematic here.*
 
 ---
 
@@ -191,7 +400,7 @@ Overlapping conditions occur when multiple selection conditions can match the sa
 
 Verilog provides loop constructs to simplify repetitive coding and describe repeated hardware structures. The procedural `for` loop and `generate-for` construct serve different purposes in RTL design.
 
-## 4.1 For Loop
+## 4.1 Procedural For Loop
 
 A `for` loop is used to repeat a set of procedural statements based on an initialization, condition, and update expression.
 
@@ -202,9 +411,27 @@ A `for` loop is used to repeat a set of procedural statements based on an initia
 - Statically bounded synthesizable loops are generally unrolled during synthesis.
 - Does not automatically create a sequential hardware loop.
 
-**Example:**
+### Syntax
 
 ```verilog
+integer i;
+
+always @(*) begin
+    for (i = 0; i < N; i = i + 1) begin
+        // Repeated operation
+    end
+end
+```
+
+### Verilog Code – Bitwise Operation Using For Loop
+
+```verilog
+module bitwise_loop (
+    input [3:0] a,
+    input [3:0] b,
+    output reg [3:0] y
+);
+
 integer i;
 
 always @(*) begin
@@ -212,31 +439,161 @@ always @(*) begin
         y[i] = a[i] & b[i];
     end
 end
+
+endmodule
 ```
 
-The example describes four bitwise AND operations. The loop is expanded into corresponding combinational hardware during synthesis.
+**Explanation:** The loop describes four bitwise AND operations. During synthesis, the loop is expanded into corresponding combinational hardware.
 
-**RTL Description – For Loop**
+### Simulation Results
 
-*Insert screenshot here.*
+*Insert your GTKWave screenshot here.*
 
-**Explanation:** The RTL demonstrates how a procedural loop can perform repeated operations without writing separate statements for every bit.
+### Synthesis Results
 
-**Simulation Results**
+*Insert your Yosys schematic here.*
 
-*Insert screenshot here.*
+## 4.2 MUX Using a For Loop
 
-**Explanation:** The waveform verifies the functionality of the repeated operations for different input combinations.
+A multiplexer selects one of several input signals and forwards the selected value to a single output.
 
-**Synthesis Results**
+### Verilog Code – MUX Using For Loop
 
-*Insert screenshot here.*
+```verilog
+module mux_generate (
+    input i0,
+    input i1,
+    input i2,
+    input i3,
+    input [1:0] sel,
+    output reg y
+);
 
-**Explanation:** The synthesized design shows how the repeated procedural statements are converted into hardware logic.
+wire [3:0] i_int;
+assign i_int = {i3, i2, i1, i0};
 
-## 4.2 For Generate
+integer k;
 
-The `generate-for` construct is used to create multiple hardware instances during elaboration. It uses a `genvar` variable to generate repeated structural elements.
+always @(*) begin
+    y = 1'b0;
+
+    for (k = 0; k < 4; k = k + 1) begin
+        if (k == sel)
+            y = i_int[k];
+    end
+end
+
+endmodule
+```
+
+**Explanation:**
+
+1. The four input signals are combined into a 4-bit vector.
+2. The loop checks each index against the select signal.
+3. When the index matches, the corresponding input bit is assigned to `y`.
+4. The initial assignment gives `y` a default value.
+
+This describes MUX selection logic using a loop rather than explicitly writing every selection condition.
+
+**Observation:** Providing a default assignment prevents unintended latch inference when no loop iteration assigns the output.
+
+### Simulation Results
+
+*Insert your RTL and gate-level waveform screenshots here.*
+
+### Synthesis Results
+
+*Insert your Yosys schematic here.*
+
+## 4.3 DEMUX Using a Loop
+
+A DEMUX directs a single input to one of several outputs based on the select signal.
+
+### Verilog Code – DEMUX Using For Loop
+
+```verilog
+module demux_loop (
+    input din,
+    input [1:0] sel,
+    output reg [3:0] y
+);
+
+integer k;
+
+always @(*) begin
+    y = 4'b0000;
+
+    for (k = 0; k < 4; k = k + 1) begin
+        if (k == sel)
+            y[k] = din;
+    end
+end
+
+endmodule
+```
+
+**Explanation:**
+
+- The input `din` is routed to one selected output.
+- The loop compares each output index with the select signal.
+- The default assignment clears all outputs.
+- Only the selected output receives the input value.
+
+### Simulation Results
+
+*Insert your GTKWave screenshot here.*
+
+### Synthesis Results
+
+*Insert your Yosys schematic here.*
+
+## 4.4 DEMUX Using Case
+
+The same DEMUX functionality can also be described using a `case` statement.
+
+### Verilog Code – DEMUX Using Case
+
+```verilog
+module demux_case (
+    input din,
+    input [1:0] sel,
+    output reg [3:0] y
+);
+
+always @(*) begin
+    y = 4'b0000;
+
+    case (sel)
+        2'b00: y[0] = din;
+        2'b01: y[1] = din;
+        2'b10: y[2] = din;
+        2'b11: y[3] = din;
+        default: y = 4'b0000;
+    endcase
+end
+
+endmodule
+```
+
+**Explanation:** The select signal determines which output receives the input. The default assignment ensures that the remaining outputs stay at zero.
+
+**Observation:** Comparing the loop-based and case-based implementations helps understand how different RTL coding styles can describe the same hardware functionality.
+
+### Simulation Results
+
+*Insert your GTKWave screenshot here.*
+
+### Synthesis Results
+
+*Insert your Yosys schematic here.*
+
+---
+
+# 5. Generate For Loop
+
+A `generate for` loop is used to replicate hardware structures during elaboration.
+
+Unlike a procedural `for` loop, a generate loop is written outside procedural `always` blocks.
 
 **Key characteristics:**
 - Used at module level.
@@ -245,9 +602,39 @@ The `generate-for` construct is used to create multiple hardware instances durin
 - Useful for repeated module instantiations.
 - Supports scalable and parameterized hardware designs.
 
-**Example:**
+### Syntax
 
 ```verilog
+genvar i;
+
+generate
+    for (i = 0; i < N; i = i + 1) begin : gen_block
+        // Hardware or module instantiation
+    end
+endgenerate
+```
+
+### Verilog Code – Generate For Loop
+
+```verilog
+module and_gate (
+    input a,
+    input b,
+    output y
+);
+
+assign y = a & b;
+
+endmodule
+```
+
+```verilog
+module and_array (
+    input [3:0] a,
+    input [3:0] b,
+    output [3:0] y
+);
+
 genvar i;
 
 generate
@@ -259,29 +646,35 @@ generate
         );
     end
 endgenerate
+
+endmodule
 ```
 
-This example generates four instances of the `and_gate` module, one for each bit.
+**Explanation:** The generate loop creates four instances of the `and_gate` module, one for each bit.
 
-**RTL Description – For Generate**
+### Generate If
 
-*Insert screenshot here.*
+A conditional generate construct can instantiate hardware only when a condition is satisfied.
 
-**Explanation:** The RTL demonstrates how a generate loop creates multiple instances of the same hardware module using a single structural description.
+```verilog
+generate
+    if (CONDITION) begin
+        // Hardware instantiated when condition is true
+    end
+endgenerate
+```
 
-**Elaboration Results**
+Generate conditions are evaluated during elaboration, not during normal runtime operation.
 
-*Insert screenshot here.*
+### Elaboration Results
 
-**Explanation:** The elaborated hierarchy illustrates how the generate construct expands into separate hardware instances.
+*Insert your elaboration hierarchy screenshot here.*
 
-**Synthesis Results**
+### Synthesis Results
 
-*Insert screenshot here.*
+*Insert your Yosys schematic here.*
 
-**Explanation:** The synthesized circuit shows the repeated hardware structures created by the generate loop.
-
-## 4.3 Difference Between For Loop and For Generate
+## 5.1 Difference Between For Loop and For Generate
 
 | For Loop | For Generate |
 |---|---|
@@ -292,41 +685,206 @@ This example generates four instances of the `and_gate` module, one for each bit
 | Static loops are generally unrolled during synthesis. | Instances are created during elaboration. |
 | Describes repeated operations. | Describes repeated hardware architecture. |
 
-**Observation:** A procedural `for` loop simplifies repeated RTL operations, whereas `generate-for` simplifies the creation of multiple hardware instances.
+---
+
+# 6. Ripple Carry Adder Using Generate
+
+A Ripple Carry Adder (RCA) is constructed by connecting multiple Full Adders in a chain.
+
+- Each Full Adder adds two input bits and a carry-in.
+- The carry-out of one stage becomes the carry-in of the next stage.
+- A generate loop can replicate the Full Adder hardware for each bit.
+
+## 6.1 Full Adder Module
+
+The Full Adder is the basic building block used to construct the Ripple Carry Adder.
+
+### Verilog Code – `fa.v`
+
+```verilog
+module fa (
+    input a,
+    input b,
+    input cin,
+    output sum,
+    output cout
+);
+
+assign sum = a ^ b ^ cin;
+
+assign cout = (a & b) | (b & cin) | (a & cin);
+
+endmodule
+```
+
+## 6.2 Ripple Carry Adder Module
+
+The RCA design uses multiple Full Adder instances connected through carry signals.
+
+### Verilog Code – `rca.v`
+
+```verilog
+module rca (
+    input [7:0] a,
+    input [7:0] b,
+    input cin,
+    output [7:0] sum,
+    output cout
+);
+
+wire [8:0] carry;
+
+assign carry[0] = cin;
+assign cout = carry[8];
+
+genvar i;
+
+generate
+    for (i = 0; i < 8; i = i + 1) begin : genblk1
+        fa u_fa_1 (
+            .a(a[i]),
+            .b(b[i]),
+            .cin(carry[i]),
+            .sum(sum[i]),
+            .cout(carry[i+1])
+        );
+    end
+endgenerate
+
+endmodule
+```
+
+**Explanation:**
+
+1. Two 8-bit input operands are provided.
+2. The initial carry input is connected to `carry[0]`.
+3. The generate loop creates eight Full Adder instances.
+4. Each Full Adder calculates one sum bit and one carry bit.
+5. The carry output from one stage is connected to the next stage.
+6. The final carry is available at `cout`.
+
+## 6.3 Ripple Carry Adder Block Diagram
+
+```text
+       a[0], b[0]       a[1], b[1]                  a[7], b[7]
+            |                |                           |
+cin ------> FA0 --carry----> FA1 --carry--> ... -------> FA7
+            |                |                           |
+          sum[0]           sum[1]                      sum[7]
+                                                          |
+                                                        cout
+```
+
+## 6.4 Testbench – `tb_rca.v`
+
+```verilog
+module tb_rca;
+
+reg [7:0] a, b;
+reg cin;
+
+wire [7:0] sum;
+wire cout;
+
+rca uut (
+    .a(a),
+    .b(b),
+    .cin(cin),
+    .sum(sum),
+    .cout(cout)
+);
+
+initial begin
+    $dumpfile("rca.vcd");
+    $dumpvars(0, tb_rca);
+
+    a = 8'd10;
+    b = 8'd20;
+    cin = 0;
+    #10;
+
+    a = 8'd100;
+    b = 8'd50;
+    cin = 0;
+    #10;
+
+    a = 8'd255;
+    b = 8'd1;
+    cin = 0;
+    #10;
+
+    a = 8'd25;
+    b = 8'd30;
+    cin = 1;
+    #10;
+
+    $finish;
+end
+
+endmodule
+```
+
+## 6.5 Simulation Commands
+
+Run these commands in the Ubuntu terminal:
+
+```bash
+iverilog -o rca_sim fa.v rca.v tb_rca.v
+```
+
+```bash
+vvp rca_sim
+```
+
+```bash
+gtkwave rca.vcd
+```
+
+**Important:** Both `fa.v` and `rca.v` must be included during compilation because the RCA module instantiates the Full Adder module.
+
+## 6.6 Yosys Synthesis Commands
+
+Start Yosys from the Ubuntu terminal:
+
+```bash
+yosys
+```
+
+Execute the following commands at the `yosys>` prompt:
+
+```tcl
+design -reset
+
+read_verilog fa.v rca.v
+
+hierarchy -check -top rca
+
+synth -top rca
+
+stat
+
+show
+```
+
+To save the synthesized Verilog netlist:
+
+```tcl
+write_verilog -noattr rca_net.v
+```
+
+**Important observation:** Both the Full Adder and RCA module definitions must be loaded before synthesis. Otherwise, Yosys reports that module `fa` is missing.
+
+### Synthesis Results
+
+*Insert your RCA Yosys schematic here.*
+
+### Simulation Results
+
+*Insert your RTL and gate-level simulation waveforms here.*
 
 ---
 
-# 5. Labs on For Loop and For Generate
-
-This section focuses on the practical implementation and synthesis analysis of procedural loops and generate constructs.
-
-### Experiment 1 – For Loop
-
-*Insert screenshot here.*
-
-**Explanation:** This experiment demonstrates the use of procedural loops to perform repetitive operations in Verilog and understand their hardware representation.
-
-### Experiment 2 – For Loop Synthesis
-
-*Insert screenshot here.*
-
-**Explanation:** The synthesis result illustrates how statically defined loop iterations are expanded into hardware logic.
-
-### Experiment 3 – For Generate
-
-*Insert screenshot here.*
-
-**Explanation:** This experiment demonstrates how `genvar` and generate constructs are used to create multiple hardware instances.
-
-### Experiment 4 – For and For Generate Analysis
-
-*Insert screenshot here.*
-
-**Explanation:** This comparison highlights the difference between procedural repetition and structural hardware generation in Verilog.
-
----
-
-# Key Learnings
+# 7. Key Learnings
 
 Through these experiments, I developed an understanding of:
 
@@ -336,14 +894,25 @@ Through these experiments, I developed an understanding of:
 - Behavior of incomplete and overlapping case conditions.
 - Differences between procedural `for` loops and `generate-for`.
 - Hardware expansion during synthesis and elaboration.
+- MUX and DEMUX implementation using different RTL coding styles.
+- Hierarchical design using Full Adder modules.
+- Ripple Carry Adder implementation using generate loops.
 - The importance of writing complete and synthesizable Verilog code.
 
-# Conclusion
+# 8. Tools Used
+
+| Tool | Purpose |
+|---|---|
+| Icarus Verilog | RTL simulation |
+| Yosys | Synthesis and hardware visualization |
+| GTKWave | Waveform analysis |
+| Xdot | Viewing synthesized circuit diagrams |
+| SKY130 Standard Cell Library | Gate-level simulation and synthesis |
+
+# 9. Conclusion
 
 Day 05 provided a deeper understanding of how RTL coding styles influence hardware synthesis. By exploring conditional constructs, incomplete assignments, overlapping case conditions, and loop-based descriptions, I gained insight into hardware inference and the conversion of Verilog RTL into digital circuits.
 
-These concepts are essential for developing clean, efficient, and synthesizable RTL designs.
+The Ripple Carry Adder experiment helped me understand hierarchical design and repeated module instantiation using generate loops.
 
-**Tools & Technologies:** Verilog HDL | Yosys | GTKWave | SKY130 Standard Cell Library
-
-**Focus Areas:** RTL Design | Logic Synthesis | Latch Inference | Hardware Optimization | Digital Design
+These concepts are important for developing clean, efficient, and synthesizable RTL designs.

@@ -389,11 +389,12 @@ Here, `2'b1?` matches both `2'b10` and `2'b11`. Therefore, it overlaps with the 
 
 ### Simulation Results
 
+<img width="959" height="539" alt="day5badcasewv" src="https://github.com/user-attachments/assets/a1860ac3-3ab3-41a2-b3b5-437fdad70bbe" />
 
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+
 
 ---
 

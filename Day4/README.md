@@ -203,6 +203,22 @@ Here:
 
 Non-blocking assignments are generally preferred for sequential logic.
 
+
+**Screenshot:** Add your RTL waveform, synthesized netlist and GLS waveform here
+
+**RTL Waveform**
+
+<img width="959" height="539" alt="day4-6" src="https://github.com/user-attachments/assets/2655a622-1c1e-4c66-be7d-06c0a9d8e913" />
+
+**Synthesized netlist**
+
+<img width="959" height="539" alt="day4-5" src="https://github.com/user-attachments/assets/bc110078-5823-4369-a45f-caf45560fa3d" />
+
+**GLS Waveform**
+
+![Uploading day4-7gls.png…]()
+
+
 ### Comparison
 
 | Blocking (`=`) | Non-Blocking (`<=`) |

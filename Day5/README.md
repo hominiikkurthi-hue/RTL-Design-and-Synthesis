@@ -389,7 +389,7 @@ Here, `2'b1?` matches both `2'b10` and `2'b11`. Therefore, it overlaps with the 
 
 ### Simulation Results
 
-*Insert your RTL and gate-level simulation screenshots here.*
+
 
 ### Synthesis Results
 
@@ -825,63 +825,17 @@ end
 endmodule
 ```
 
-## 6.5 Simulation Commands
-
-Run these commands in the Ubuntu terminal:
-
-```bash
-iverilog -o rca_sim fa.v rca.v tb_rca.v
-```
-
-```bash
-vvp rca_sim
-```
-
-```bash
-gtkwave rca.vcd
-```
-
-**Important:** Both `fa.v` and `rca.v` must be included during compilation because the RCA module instantiates the Full Adder module.
-
-## 6.6 Yosys Synthesis Commands
-
-Start Yosys from the Ubuntu terminal:
-
-```bash
-yosys
-```
-
-Execute the following commands at the `yosys>` prompt:
-
-```tcl
-design -reset
-
-read_verilog fa.v rca.v
-
-hierarchy -check -top rca
-
-synth -top rca
-
-stat
-
-show
-```
-
-To save the synthesized Verilog netlist:
-
-```tcl
-write_verilog -noattr rca_net.v
-```
-
-**Important observation:** Both the Full Adder and RCA module definitions must be loaded before synthesis. Otherwise, Yosys reports that module `fa` is missing.
-
-### Synthesis Results
+### Simulations Results
 
 *Insert your RCA Yosys schematic here.*
 
-### Simulation Results
+<img width="959" height="538" alt="day5rcawf" src="https://github.com/user-attachments/assets/00d92f38-4578-40ce-9126-bf8f31b6246f" />
 
-*Insert your RTL and gate-level simulation waveforms here.*
+
+### Synthesis Results
+
+<img width="958" height="539" alt="day5rcasyn" src="https://github.com/user-attachments/assets/9429ab75-59d5-4076-aff4-c0a933713492" />
+
 
 ---
 

@@ -428,38 +428,7 @@ always @(*) begin
     end
 end
 ```
-
-### Verilog Code – Bitwise Operation Using For Loop
-
-```verilog
-module bitwise_loop (
-    input [3:0] a,
-    input [3:0] b,
-    output reg [3:0] y
-);
-
-integer i;
-
-always @(*) begin
-    for (i = 0; i < 4; i = i + 1) begin
-        y[i] = a[i] & b[i];
-    end
-end
-
-endmodule
-```
-
-**Explanation:** The loop describes four bitwise AND operations. During synthesis, the loop is expanded into corresponding combinational hardware.
-
-### Simulation Results
-
-*Insert your GTKWave screenshot here.*
-
-### Synthesis Results
-
-*Insert your Yosys schematic here.*
-
-## 4.2 MUX Using a For Loop
+## 4.1 MUX Using a For Loop
 
 A multiplexer selects one of several input signals and forwards the selected value to a single output.
 
@@ -511,7 +480,7 @@ This describes MUX selection logic using a loop rather than explicitly writing e
 
 *Insert your Yosys schematic here.*
 
-## 4.3 DEMUX Using a Loop
+## 4.2 DEMUX Using a Loop
 
 A DEMUX directs a single input to one of several outputs based on the select signal.
 
@@ -553,7 +522,7 @@ endmodule
 
 *Insert your Yosys schematic here.*
 
-## 4.4 DEMUX Using Case
+## 4.3 DEMUX Using Case
 
 The same DEMUX functionality can also be described using a `case` statement.
 

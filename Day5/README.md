@@ -396,6 +396,8 @@ Here, `2'b1?` matches both `2'b10` and `2'b11`. Therefore, it overlaps with the 
 
 ### Synthesis Results
 
+<img width="959" height="539" alt="Screenshot 2026-11-03 080330" src="https://github.com/user-attachments/assets/acc9fdec-a69f-48e5-9d5a-fb4f8164fba9" />
+
 
 
 ---

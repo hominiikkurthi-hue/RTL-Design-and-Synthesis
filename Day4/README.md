@@ -99,8 +99,6 @@ The synthesized multiplexer is checked against the original RTL design to verify
 
 
 
-
-
 ---
 
 ## 3. Understanding Synthesis-Simulation Mismatch

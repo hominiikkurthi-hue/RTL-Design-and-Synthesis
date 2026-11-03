@@ -323,12 +323,14 @@ endmodule
 
 ### Simulation Results
 
-<img width="959" height="539" alt="day5comp" src="https://github.com/user-attachments/assets/f8fdd1d9-95e2-4f66-8172-26ce4b875ae4" />
+<img width="959" height="531" alt="day5partialwaveform" src="https://github.com/user-attachments/assets/2cb5d22f-017f-44fa-a301-30d77a3b6d1a" />
+
 
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+<img width="959" height="537" alt="partialsymetatic" src="https://github.com/user-attachments/assets/126e97d3-8635-41f9-9cdf-e812c99f0052" />
+
 
 ## 3.2 Overlapping Case Conditions
 

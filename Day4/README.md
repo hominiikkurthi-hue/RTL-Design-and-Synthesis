@@ -214,7 +214,8 @@ Non-blocking assignments are generally preferred for sequential logic.
 
 **GLS Waveform**
 
-![Uploading day4-7gls.png…]()
+<img width="959" height="539" alt="day4-7gls" src="https://github.com/user-attachments/assets/da3a1ecc-8049-4a46-ac23-b9bd62023007" />
+
 
 
 ### Comparison

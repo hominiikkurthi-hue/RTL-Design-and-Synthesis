@@ -95,6 +95,7 @@ The synthesized multiplexer is checked against the original RTL design to verify
 <img width="959" height="538" alt="day4-2" src="https://github.com/user-attachments/assets/08467edf-e9e7-4e30-bec5-48bb7b745327" />
 
 **GLS Waveform**
+
 <img width="959" height="532" alt="day4-3gls" src="https://github.com/user-attachments/assets/82c916d9-c4d2-4743-bd6d-ded34594035d" />
 
 
@@ -151,9 +152,11 @@ The `@(*)` automatically includes the signals read inside the block in the sensi
 
 **Screenshot:** Add the RTL and GLS waveforms showing the mismatch and corrected behavior.
 **RTL Waveform**
+
 <img width="959" height="539" alt="day4-4" src="https://github.com/user-attachments/assets/79d0c5dc-c062-46ee-a362-3e2f9257635c" />
 
 **Synthesized netlist**
+
 <img width="959" height="539" alt="day4badmuxxsch" src="https://github.com/user-attachments/assets/34bde994-e211-43c0-bcd7-f30071b38c5d" />
 
 **GLS Waveform**

@@ -474,11 +474,12 @@ This describes MUX selection logic using a loop rather than explicitly writing e
 
 ### Simulation Results
 
-*Insert your RTL and gate-level waveform screenshots here.*
+<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/accc85d8-40c0-49d6-a141-f3b2b03c53e3" />
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+<img width="959" height="538" alt="image" src="https://github.com/user-attachments/assets/481bdd90-9be7-441c-a146-5c3d52cee023" />
+
 
 ## 4.2 DEMUX Using a Loop
 
@@ -516,11 +517,12 @@ endmodule
 
 ### Simulation Results
 
-*Insert your GTKWave screenshot here.*
+<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/c9560c62-9c8e-4099-8074-c166e2fec66d" />
+
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+
 
 ## 4.3 DEMUX Using Case
 

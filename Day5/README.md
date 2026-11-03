@@ -651,7 +651,8 @@ Generate conditions are evaluated during elaboration, not during normal runtime 
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/269c6839-44d6-42f3-bb82-a5fb1b9487f7" />
+
 
 ## 5.1 Difference Between For Loop and For Generate
 

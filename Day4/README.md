@@ -2,7 +2,7 @@
 
 ## Overview
 
-Day 04 focuses on understanding how Verilog RTL code behaves during simulation and how the synthesized hardware behaves after converting the RTL design into a gate-level netlist.
+It focuses on understanding how Verilog RTL code behaves during simulation and how the synthesized hardware behaves after converting the RTL design into a gate-level netlist.
 
 The main objective of this session is to understand Gate-Level Simulation (GLS), identify the reasons behind synthesis-simulation mismatches, and learn the correct usage of blocking and non-blocking assignments in Verilog.
 

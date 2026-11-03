@@ -583,11 +583,13 @@ endmodule
 
 ### Simulation Results
 
-*Insert your GTKWave screenshot here.*
+<img width="959" height="539" alt="day5demuxwf" src="https://github.com/user-attachments/assets/4ae21aab-00a4-44ec-a995-a5479e3e7feb" />
+
 
 ### Synthesis Results
 
-*Insert your Yosys schematic here.*
+<img width="959" height="539" alt="day5demuxsyn" src="https://github.com/user-attachments/assets/a093174c-8da1-40f4-b349-ff282ba3d046" />
+
 
 ---
 
@@ -669,8 +671,8 @@ endgenerate
 Generate conditions are evaluated during elaboration, not during normal runtime operation.
 
 ### Elaboration Results
+<img width="959" height="538" alt="day5casegenerate" src="https://github.com/user-attachments/assets/40a20f6f-f902-455a-9613-77ca02ae6d49" />
 
-*Insert your elaboration hierarchy screenshot here.*
 
 ### Synthesis Results
 

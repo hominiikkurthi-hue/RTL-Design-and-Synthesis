@@ -519,11 +519,6 @@ endmodule
 
 <img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/c9560c62-9c8e-4099-8074-c166e2fec66d" />
 
-
-### Synthesis Results
-
-
-
 ## 4.3 DEMUX Using Case
 
 The same DEMUX functionality can also be described using a `case` statement.

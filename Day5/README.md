@@ -323,7 +323,8 @@ endmodule
 
 ### Simulation Results
 
-*Insert your GTKWave screenshot here.*
+<img width="959" height="539" alt="day5comp" src="https://github.com/user-attachments/assets/f8fdd1d9-95e2-4f66-8172-26ce4b875ae4" />
+
 
 ### Synthesis Results
 
